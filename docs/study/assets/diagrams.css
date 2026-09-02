@@ -1,0 +1,16 @@
+.architecture-set { margin: 38px 0; }
+.diagram { overflow-x: auto; margin: 16px 0; padding: 17px; border: 1px solid var(--line); background: #fff; }
+.diagram h3 { margin: 0 0 12px; }
+.flow { display: flex; align-items: stretch; gap: 8px; min-width: 720px; }
+.flow-node { flex: 1; display: grid; place-items: center; min-height: 84px; padding: 10px; border: 1px solid #9cc5c2; border-top: 4px solid var(--brand); background: var(--soft); text-align: center; font-weight: 750; }
+.flow-node.alt { border-top-color: var(--violet); background: var(--violetbg); }
+.flow-node.warn { border-top-color: var(--warn); background: var(--warnbg); }
+.flow-node small { display: block; color: var(--muted); font-weight: 400; }
+.arrow { align-self: center; color: var(--brand); font-size: 1.4rem; }
+.diagram figcaption { margin-top: 10px; color: var(--muted); font-size: .88rem; }
+.family-map { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.family-map article { padding: 15px; border: 1px solid var(--line); background: #fff; }
+.family-map h3 { margin: 0 0 6px; color: var(--brand2); }
+.family-map p { margin: 5px 0; color: var(--muted); }
+.family-map code { display: inline-block; margin: 2px; }
+@media (max-width: 650px) { .family-map { grid-template-columns: 1fr; } }

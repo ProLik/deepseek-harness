@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="面向初学者的 DeepSeek Harness 30 天逐日源码学习课程">
+  <title>DeepSeek Harness 30 天源码学习课程</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/lesson.css">
+  <link rel="stylesheet" href="assets/diagrams.css">
+  <link rel="stylesheet" href="assets/index.css">
+</head>
+<body>
+  <header><div class="hero"><p class="eyebrow">零基础 · 每天一页 · 从项目学习知识</p><h1>DeepSeek Harness 30 天源码学习课程</h1><p>不要求你预先掌握 Node.js、TypeScript、依赖注入或 LLM。课程从当前源码里的最小例子出发，每天只增加一层复杂度，最后能独立拆解整个能力族。</p></div></header>
+  <div class="reading-bar" aria-label="页面阅读位置"><span id="reading-progress"></span></div>
+  <main class="dashboard">
+    <div class="dashboard-intro">
+      <div class="offline-contract"><b>离线阅读承诺：</b>课程所需概念、当前源码摘录、命令说明、项目步骤和参考材料均已写入每天的 HTML 页面。无需联网，也无需另开编辑器搜索仓库；源码链接仅供学完后的可选延伸阅读。</div>
+      <h2>怎样使用这套课程</h2>
+      <p>每一天是一章完整教材，建议拆成 2–3 次、总计 2–3.5 小时完成。依次完成“概念讲义 → 术语练习 → 四站源码精读 → 运行跟踪 → 命令实验 → 项目实战 → 间隔复习”，不要提前通读大文件。第一次只读成功路径；取消、并发、恢复和平台分支留到课程指定的日子。看不懂时先回答三个问题：输入是什么、输出是什么、谁使用它。</p>
+      <div class="panel warning"><b>版本说明：</b>课程按当前 checkout 的 <code>0.1.2-alpha.2</code> 与 51 个 package group 编写。每次运行课程生成器都会重新核对 120 组目标符号，并从当前源码生成行号和上下文摘录；源码变化后应重新生成页面。所有核心练习不需要 API Key。</div>
+      <div class="course-summary"><div><b>30 天</b>每天独立 HTML 页面</div><div><b id="total-count">0 / 30 天</b><div class="meter"><span id="total-progress"></span></div>本机持久进度</div><div><b>4 条不变量</b>贯穿所有源码阅读</div></div>
+      <div class="dashboard-actions"><a class="button" id="continue" href="day-01.html">从第 1 天开始</a><button class="button secondary" id="reset-course" type="button">清除全部进度</button><a href="../architecture.md">已有架构文档</a></div>
+    </div>
+    <section class="learning-route" id="prerequisites">
+      <h2>先备知识路线：不用先学完，再来看项目</h2>
+      <p>你列出的知识点都可以在这个仓库里逐步学。课程采用“遇到真实问题时再补概念”的顺序：先看一个很小的项目例子，再学习够用的语法，最后回到源码解释它。每一行只要求达到“能继续读下一段”的程度，不要求第一遍精通。</p>
+      <div class="table-scroll"><table><thead><tr><th>你暂时不了解的知识</th><th>从哪一天开始</th><th>先看哪个项目证据</th><th>这一阶段只需达到</th></tr></thead><tbody>
+        <tr><td>终端、Node.js、pnpm</td><td><a href="day-01.html">第 1–2 天</a></td><td><code>package.json</code> 的 scripts 与 <code>apps/cli/src/bin.ts</code></td><td>能从一条命令追到实际执行的 TypeScript 文件</td></tr>
+        <tr><td>TypeScript 类型系统、ESM</td><td><a href="day-03.html">第 3–4 天</a></td><td><code>Agent</code> 接口、<code>ReactLoopAgent</code>、CLI 动态 import</td><td>能读函数签名、判别联合、import/export；复杂泛型先跳过</td></tr>
+        <tr><td>测试与 mock</td><td><a href="day-05.html">第 5 天</a></td><td>Session 的最小测试与 <code>MockAdapter</code></td><td>会先找断言，再定位动作和最小依赖</td></tr>
+        <tr><td>YAML、Profile、Bundle</td><td><a href="day-06.html">第 6–9 天</a></td><td><code>cordis.patch.yml</code>、<code>loadProfile()</code>、<code>boot()</code></td><td>能解释配置层怎样按 id 合成并变成插件树</td></tr>
+        <tr><td>依赖注入、Service、生命周期</td><td><a href="day-10.html">第 10–12 天</a></td><td>Cordis <code>Context</code>、<code>LlmRuntime</code>、可撤销注册</td><td>能区分能力定义、提供者、消费者，并找到 disposer</td></tr>
+        <tr><td>事件驱动、waterfall</td><td><a href="day-13.html">第 13 天</a></td><td><code>system-prompt/assemble</code> 与 invariant listener</td><td>能区分广播与合作链，并知道 listener 何时必须调用 <code>next()</code></td></tr>
+        <tr><td>异步流、LLM 工具调用</td><td><a href="day-14.html">第 14–16、20–25 天</a></td><td><code>StreamChunk</code>、<code>step()</code>、<code>ToolRuntime.execute()</code></td><td>能画出一次模型流和一次工具调用的输入输出</td></tr>
+        <tr><td>事件溯源、JSONL、SQLite</td><td><a href="day-17.html">第 17–19、26–27 天</a></td><td><code>SessionEventMap</code>、<code>deriveMessages()</code>、两个持久化 provider</td><td>能说明日志为何是事实来源，以及投影如何重建</td></tr>
+        <tr><td>JSON Schema</td><td><a href="day-21.html">第 21 天</a></td><td><code>ParameterSchemaSpec</code> 与 <code>validateArgs()</code></td><td>能解释 TypeScript 与运行时外部 JSON 验证的分工</td></tr>
+        <tr><td>Web、RPC、SDK、协议适配</td><td><a href="day-28.html">第 28–29 天</a></td><td>Web bundle、Session Controller、SDK/ACP/Webhook</td><td>能追踪外部请求怎样复用同一 Agent 与 Session</td></tr>
+      </tbody></table></div>
+      <div class="study-rhythm">
+        <article><h3>每次只完成一个闭环</h3><p>先用 10 分钟读概念，再按页面顺序阅读 4 个源码站点中的嵌入卡片；最后执行命令并完成一个小项目。课程正文不要求打开其他文件。</p></article>
+        <article><h3>看不懂时不要硬撑</h3><p>先记录“调用者、输入、输出、可观察事件”四项。某个泛型或 helper 超过 15 分钟仍不懂，就写下名字继续成功路径，后面的运行图会补上上下文。</p></article>
+        <article><h3>一章可以拆成三次</h3><p>第一次完成概念和前两站，第二次完成后两站与运行跟踪，第三次完成命令实验和项目。页面会在本机保存勾选进度；间隔一天复述不出来时，只重读答错的源码站点。</p></article>
+      </div>
+    </section>
+    <section class="architecture-set">
+      <h2>先看三张图，不要求现在背下来</h2>
+      <p>学到对应章节时再回来重画。箭头表示数据或依赖方向，不表示目录层级。</p>
+      <figure class="diagram"><h3>图 1：Profile / Bundle 配置叠加</h3><div class="flow" role="img" aria-label="bundle、profile、home patch、命令行 overlay 依次叠加后交给 Cordis loader"><div class="flow-node">Bundle layers<small>可复用默认组合</small></div><div class="arrow">→</div><div class="flow-node">Profile patch<small>应用专属调整</small></div><div class="arrow">→</div><div class="flow-node alt">DSH_HOME patch<small>本机用户设置</small></div><div class="arrow">→</div><div class="flow-node warn">--patch / telemetry<small>本次启动最高层</small></div><div class="arrow">→</div><div class="flow-node">Cordis tree<small>按 id 合成并挂载</small></div></div><figcaption>第 6–9 天逐步读 <code>composeEntries()</code>、<code>loadProfile()</code> 与 <code>runProfile()</code>。</figcaption></figure>
+      <figure class="diagram"><h3>图 2：一次 Agent turn</h3><div class="flow" role="img" aria-label="用户输入经 Inbox、Session、Prompt、LLM 和 ToolRuntime 形成下一步"><div class="flow-node">followup / Inbox<small>排队用户输入</small></div><div class="arrow">→</div><div class="flow-node">Session log<small>追加 turn、step、message</small></div><div class="arrow">→</div><div class="flow-node alt">Prompt + LLM<small>组装可重建请求并流式返回</small></div><div class="arrow">→</div><div class="flow-node warn">ToolRuntime<small>校验、权限、调度、结果</small></div><div class="arrow">↺</div><div class="flow-node">下一 step / end<small>由日志继续或结束</small></div></div><figcaption>第 17–25 天从事件词汇表一路读到 <code>turn()</code> 与 <code>step()</code>。</figcaption></figure>
+      <figure class="diagram"><h3>图 3：能力替换关系</h3><div class="flow" role="img" aria-label="消费者依赖服务定义，多个提供者可被 bundle 选择"><div class="flow-node alt">Consumer<small>Agent、Tool、Controller</small></div><div class="arrow">→</div><div class="flow-node">Service Definition<small>类型、请求、结果、注册表</small></div><div class="arrow">←</div><div class="flow-node warn">Provider A<small>DeepSeek / local / JSONL</small></div><div class="arrow">或</div><div class="flow-node warn">Provider B<small>Mock / pwsh / SQLite</small></div><div class="arrow">←</div><div class="flow-node">Bundle<small>选择具体组合</small></div></div><figcaption>扩展依赖 Definition，不直接依赖具体 Provider；第 10–16 天建立这套阅读方法。</figcaption></figure>
+    </section>
+    <section>
+      <h2>全仓 51 个能力组地图</h2>
+      <p>课程深读核心脊柱，其余 group 用第 30 天的 Definition → Provider → Consumer → Bundle → Test 方法继续。下面是当前 checkout 的完整分组，不把 experimental 当正式产品入口。</p>
+      <div class="family-map">
+        <article><h3>核心与组装：优先读</h3><p>决定应用如何启动、模型请求如何执行、事实如何保存。</p><code>boot</code> <code>bundle</code> <code>context</code> <code>core</code> <code>llm</code> <code>session</code> <code>compaction</code> <code>preset</code></article>
+        <article><h3>外部入口：核心后读</h3><p>把同一 Agent/Session 投影到浏览器、RPC、SDK 和协议客户端。</p><code>acp</code> <code>api</code> <code>client</code> <code>host</code> <code>sdk</code> <code>typert</code> <code>webhook</code></article>
+        <article><h3>执行与工具能力：按需读</h3><p>通常能找到完整 Definition / Provider / Consumer 三角色。</p><code>attachment</code> <code>code-runtime</code> <code>e2b</code> <code>fs</code> <code>lsp</code> <code>mcp</code> <code>sandbox</code> <code>shell</code> <code>skill</code> <code>spill</code> <code>storage</code> <code>subagent</code> <code>subprocess</code> <code>terminal</code> <code>web</code> <code>workflow</code> <code>workspace</code></article>
+        <article><h3>交互与运行治理：主干后读</h3><p>通过事件、Prompt、Tool 或 projection 扩展循环。</p><code>credentials</code> <code>extensions</code> <code>feedback</code> <code>goal</code> <code>guard</code> <code>identity</code> <code>interaction</code> <code>jobs</code> <code>plan</code> <code>runtime-diagnostics</code> <code>schedule</code> <code>session-query</code> <code>settings</code> <code>todo</code></article>
+        <article><h3>集成与支撑：最后读</h3><p>帮助组合、测试与接入，不是核心 turn 的所有者。</p><code>examples</code> <code>hooks</code> <code>test-support</code> <code>util</code></article>
+        <article><h3>实验区：有兴趣再读</h3><p>原型不属于官方发布面，不用它推断稳定架构。</p><code>experimental</code></article>
+      </div>
+    </section>
+    <div id="course-list"></div>
+  </main>
+  <footer><div>离线课程入口：<a href="../study.html">docs/study.html</a> · 源码链接均相对当前仓库。</div></footer>
+  <script src="assets/course.js"></script>
+</body>
+</html>
